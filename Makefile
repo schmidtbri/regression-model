@@ -7,8 +7,11 @@ TEST_PATH=./tests
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-download-data: ## download training data from Kaggle
-	kaggle datasets download gpandi007/usa-housing-dataset -p ./data --unzip
+download-dataset: ## download dataset from Kaggle
+	kaggle datasets download -d mirichoi0218/insurance -p ./data --unzip
+
+explore-dataset: ## run data exploration on dataset
+	papermill
 
 clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyc' -exec rm -f {} +
