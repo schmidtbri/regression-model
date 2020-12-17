@@ -10,9 +10,6 @@ help:
 download-dataset: ## download dataset from Kaggle
 	kaggle datasets download -d mirichoi0218/insurance -p ./data --unzip
 
-explore-dataset: ## run data exploration on dataset
-	papermill
-
 clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
