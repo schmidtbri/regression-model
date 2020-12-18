@@ -19,9 +19,8 @@ setup(name=__name__,
       long_description_content_type="text/markdown",
       url="https://github.com/schmidtbri/ml-base",
       packages=find_packages(exclude=["tests"]),
-      install_requires=["ml_base", "pandas", "pandas_profiling", "featuretools", "sklearn",
-                        "featuretools_sklearn_transformer"],
+      install_requires=["ml_base", "pandas", "sklearn", "featuretools"],
       extras_require={
-            "training": ["kaggle", "jupyter", "tpot"],
+            "training": ["kaggle", "jupyter", "pandas_profiling", "tpot", "nbconvert"],
       },
       tests_require=['pytest', 'pytest-html', 'pylama', 'coverage', 'coverage-badge', 'bandit', 'safety', "pytype"])

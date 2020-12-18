@@ -5,15 +5,19 @@ import featuretools as ft
 
 
 class BooleanTransformer(BaseEstimator, TransformerMixin):
+    """Convert values to True or False."""
 
     def __init__(self, true_value="yes", false_value="no"):
+        """Initialize BooleanTransformer instance."""
         self.true_value = true_value
         self.false_value = false_value
 
     def fit(self, X, y=None):
+        """Fit the transformer to a dataset."""
         return self
 
     def transform(self, X, y=None):
+        """Transform a dataset."""
         def f(value):
             if type(value) is bool or type(value) is bool_:
                 return value
@@ -30,11 +34,14 @@ class BooleanTransformer(BaseEstimator, TransformerMixin):
 
 
 class IntToFloatTransformer(BaseEstimator, TransformerMixin):
+    """Convert integer values to floating point values."""
 
     def fit(self, X, y=None):
+        """Fit the transformer to a dataset."""
         return self
 
     def transform(self, X, y=None):
+        """Transform a dataset."""
         def f(value):
             if type(value) is int:
                 return float(value)
@@ -47,13 +54,17 @@ class IntToFloatTransformer(BaseEstimator, TransformerMixin):
 
 
 class DFSTransformer(BaseEstimator, TransformerMixin):
+    """Generate features using deep feature synthesis."""
+
     def __init__(self, target_entity, trans_primitives, ignore_variables):
+        """Initialize instance of DFSTransformer."""
         self.target_entity = target_entity
         self.trans_primitives = trans_primitives
         self.ignore_variables = ignore_variables
         self.feature_defs = None
 
     def fit(self, X, y=None):
+        """Fit the transformer to a dataset."""
         entityset = ft.EntitySet(id="Transactions")
         if "index" not in X.columns:
             entityset = entityset.entity_from_dataframe(entity_id=self.target_entity,
@@ -73,6 +84,7 @@ class DFSTransformer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X, y=None):
+        """Transform a dataset."""
         entityset = ft.EntitySet(id="Transactions")
         if "index" not in X.columns:
             entityset = entityset.entity_from_dataframe(entity_id=self.target_entity,
@@ -88,11 +100,14 @@ class DFSTransformer(BaseEstimator, TransformerMixin):
 
 
 class InfinityToNaNTransformer(BaseEstimator, TransformerMixin):
+    """Convert inf values to NaN values."""
 
     def fit(self, X, y=None):
+        """Fit the transformer to a dataset."""
         return self
 
     def transform(self, X, y=None):
+        """Transform a dataset."""
         def f(value):
             if value == inf:
                 return np.nan
@@ -102,4 +117,3 @@ class InfinityToNaNTransformer(BaseEstimator, TransformerMixin):
         X = np.vectorize(f)(X)
 
         return X
-

@@ -9,28 +9,36 @@ from regression_model.prediction.schemas import InputSchema, OutputSchema
 
 
 class InsuranceChargesModel(MLModel):
+    """Prediction functionality of th Insurance Charges Model."""
+
     @property
     def display_name(self) -> str:
+        """Return display name of model."""
         return "insurance_charges_model"
 
     @property
     def qualified_name(self) -> str:
+        """Return qualified name of model."""
         return "Insurance Charges Model"
 
     @property
     def description(self) -> str:
+        """Return description of model."""
         return "Model to predict the insurance charges of a customer.."
 
     @property
     def version(self) -> str:
+        """Return version of model."""
         return __version__
 
     @property
     def input_schema(self):
+        """Return input schema of model."""
         return InputSchema
 
     @property
     def output_schema(self):
+        """Return output schema of model."""
         return OutputSchema
 
     def __init__(self):
@@ -44,7 +52,7 @@ class InsuranceChargesModel(MLModel):
         with open(os.path.join(dir_path, "model_files", "model.joblib"), 'rb') as file:
             self._svm_model = joblib.load(file)
 
-    def predict(self, data: InputSchema) -> OutputSchema:
+    def predict(self, data: dict) -> OutputSchema:
         """Make a prediction with the model.
 
         :param data: Data for making a prediction with the model. Object must meet requirements of the input schema.
@@ -52,11 +60,13 @@ class InsuranceChargesModel(MLModel):
         :rtype: dict -- The result of the prediction, the output object will meet the requirements of the output schema.
 
         """
-        if type(data) is not InputSchema:
-            raise ValueError("Input object is of wrong type.")
+        try:
+            inpt = InputSchema(**data)
+        except Exception as e:
+            raise MLModelSchemaValidationException("Could not validate input data: {}".format(str(e)))
 
         # converting the incoming dictionary into a pandas dataframe that can be accepted by the model
-        X = pd.DataFrame([[data.age, data.sex.value, data.bmi, data.children, data.smoker, data.region.value]],
+        X = pd.DataFrame([[inpt.age, inpt.sex.value, inpt.bmi, inpt.children, inpt.smoker, inpt.region.value]],
                          columns=["age", "sex", "bmi", "children", "smoker", "region"])
 
         # making the prediction and extracting the result from the array

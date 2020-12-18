@@ -58,11 +58,14 @@ clean-test:	## Remove test artifacts
 	rm -rf reports
 	rm -rf .pytype
 
-check-codestyle:  ## checks the style of the code against PEP8
-	pycodestyle regression_model --max-line-length=120
+generate-modules:  ## generates python modules from jupyter notebooks
+	jupyter nbconvert --to script ./regression_model/training/*.ipynb --PythonExporter.exclude_markdown=True
 
-check-docstyle:  ## checks the style of the docstrings against PEP257
-	pydocstyle regression_model
+check-codestyle: generate-modules  ## checks the style of the code against PEP8
+	pycodestyle regression_model --ignore=W391 --max-line-length=120
+
+check-docstyle: generate-modules  ## checks the style of the docstrings against PEP257
+	pydocstyle regression_model --ignore=D100,D203,D212,D213
 
 check-security:  ## checks for common security vulnerabilities
 	bandit -r regression_model
@@ -70,8 +73,11 @@ check-security:  ## checks for common security vulnerabilities
 check-dependencies:  ## checks for security vulnerabilities in dependencies
 	safety check -r requirements.txt
 
-check-codemetrics:  ## calculate code metrics of the package
+check-codemetrics: generate-modules  ## calculate code metrics of the package
 	radon cc regression_model
 
-check-pytype:  ## perform static code analysis
+check-pytype: generate-modules  ## perform static code analysis
 	pytype regression_model
+
+clean-notebook-code:  ## delete all modules created from jupyter notebooks
+	rm ./regression_model/training/*.py
