@@ -8,6 +8,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 download-dataset: ## download dataset from Kaggle
+	mkdir -p data
 	kaggle datasets download -d mirichoi0218/insurance -p ./data --unzip
 
 clean-pyc: ## Remove python artifacts.
@@ -15,7 +16,7 @@ clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
-build: ## build a package
+build: generate-modules ## build the package
 	python setup.py sdist bdist_wheel
 
 clean-build:  ## clean build artifacts
@@ -31,6 +32,7 @@ dependencies: ## install dependencies from requirements.txt
 	python -m pip install --upgrade pip
 	python -m pip install --upgrade setuptools
 	python -m pip install --upgrade wheel
+	python -m pip install pip-tools
 	pip install -r requirements.txt
 
 test-dependencies: ## install dependencies from test_requirements.txt
@@ -62,7 +64,7 @@ generate-modules:  ## generates python modules from jupyter notebooks
 	jupyter nbconvert --to script ./regression_model/training/*.ipynb --PythonExporter.exclude_markdown=True
 
 check-codestyle: generate-modules  ## checks the style of the code against PEP8
-	pycodestyle regression_model --ignore=W391 --max-line-length=120
+	pycodestyle regression_model --ignore=W391,E402  --max-line-length=120
 
 check-docstyle: generate-modules  ## checks the style of the docstrings against PEP257
 	pydocstyle regression_model --ignore=D100,D203,D212,D213

@@ -1,11 +1,11 @@
 import os
-from ml_base import MLModel
-from ml_base.ml_model import MLModelSchemaValidationException
 import joblib
 import pandas as pd
+from ml_base import MLModel
 
 from regression_model import __version__
-from regression_model.prediction.schemas import InputSchema, OutputSchema
+from regression_model.prediction.schemas import InsuranceChargesModelInputSchema, \
+    InsuranceChargesModelOutputSchema
 
 
 class InsuranceChargesModel(MLModel):
@@ -14,12 +14,12 @@ class InsuranceChargesModel(MLModel):
     @property
     def display_name(self) -> str:
         """Return display name of model."""
-        return "insurance_charges_model"
+        return "Insurance Charges Model"
 
     @property
     def qualified_name(self) -> str:
         """Return qualified name of model."""
-        return "Insurance Charges Model"
+        return "insurance_charges_model"
 
     @property
     def description(self) -> str:
@@ -34,12 +34,12 @@ class InsuranceChargesModel(MLModel):
     @property
     def input_schema(self):
         """Return input schema of model."""
-        return InputSchema
+        return InsuranceChargesModelInputSchema
 
     @property
     def output_schema(self):
         """Return output schema of model."""
-        return OutputSchema
+        return InsuranceChargesModelOutputSchema
 
     def __init__(self):
         """Class constructor that loads and deserializes the model parameters.
@@ -52,7 +52,7 @@ class InsuranceChargesModel(MLModel):
         with open(os.path.join(dir_path, "model_files", "model.joblib"), 'rb') as file:
             self._svm_model = joblib.load(file)
 
-    def predict(self, data: dict) -> OutputSchema:
+    def predict(self, data: InsuranceChargesModelInputSchema) -> InsuranceChargesModelOutputSchema:
         """Make a prediction with the model.
 
         :param data: Data for making a prediction with the model. Object must meet requirements of the input schema.
@@ -60,16 +60,11 @@ class InsuranceChargesModel(MLModel):
         :rtype: dict -- The result of the prediction, the output object will meet the requirements of the output schema.
 
         """
-        try:
-            inpt = InputSchema(**data)
-        except Exception as e:
-            raise MLModelSchemaValidationException("Could not validate input data: {}".format(str(e)))
-
         # converting the incoming dictionary into a pandas dataframe that can be accepted by the model
-        X = pd.DataFrame([[inpt.age, inpt.sex.value, inpt.bmi, inpt.children, inpt.smoker, inpt.region.value]],
+        X = pd.DataFrame([[data.age, data.sex.value, data.bmi, data.children, data.smoker, data.region.value]],
                          columns=["age", "sex", "bmi", "children", "smoker", "region"])
 
         # making the prediction and extracting the result from the array
-        y_hat = float(self._svm_model.predict(X)[0])
+        y_hat = round(float(self._svm_model.predict(X)[0]), 2)
 
-        return OutputSchema(charges=y_hat)
+        return InsuranceChargesModelOutputSchema(charges=y_hat)

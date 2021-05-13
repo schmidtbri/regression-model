@@ -4,10 +4,10 @@ from setuptools import setup, find_packages
 
 from regression_model import __name__, __version__, __doc__
 
-# Get the long description from the README file
-here = path.abspath(path.dirname(__file__))
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+def load_file(file_name):
+    here = path.abspath(path.dirname(__file__))
+    with open(path.join(here, file_name)) as f:
+        return f.read()
 
 
 setup(name=__name__,
@@ -15,12 +15,25 @@ setup(name=__name__,
       author="Brian Schmidt",
       author_email="6666331+schmidtbri@users.noreply.github.com",
       description=__doc__,
-      long_description=long_description,
+      long_description=load_file("README.md"),
       long_description_content_type="text/markdown",
-      url="https://github.com/schmidtbri/ml-base",
-      packages=find_packages(exclude=["tests"]),
-      install_requires=["ml_base", "pandas", "sklearn", "featuretools"],
+      url="https://github.com/schmidtbri/regression-model",
+      license="BSD",
+      packages=find_packages(exclude=["tests", "*tests", "tests*"]),
+      install_requires=["ml_base", "rest_model_service", "pandas", "scikit-learn", "featuretools"],
       extras_require={
-            "training": ["kaggle", "jupyter", "pandas_profiling", "tpot", "nbconvert"],
+            "training": ["kaggle", "jupyter", "pandas_profiling", "tpot", "yellowbrick"],
       },
-      tests_require=['pytest', 'pytest-html', 'pylama', 'coverage', 'coverage-badge', 'bandit', 'safety', "pytype"])
+      tests_require=['pytest', 'pytest-html', 'pylama', 'coverage', 'coverage-badge', 'bandit', 'safety', "pytype"],
+      classifiers=[
+            "Programming Language :: Python :: 3",
+            "Operating System :: OS Independent"
+      ],
+      project_urls={
+            "Documentation": "https://schmidtbri.github.io/regression-model",
+            "Source Code": "https://github.com/schmidtbri/regression-model",
+            "Tracker": "https://github.com/schmidtbri/regression-model/issues"
+      },
+      keywords=[
+            "machine learning", "model deployment", "regression model"
+      ])
