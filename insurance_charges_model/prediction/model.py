@@ -1,10 +1,11 @@
 import os
+import traceback
 import joblib
 import pandas as pd
 from ml_base import MLModel
 
-from regression_model import __version__
-from regression_model.prediction.schemas import InsuranceChargesModelInputSchema, \
+from insurance_charges_model import __version__
+from insurance_charges_model.prediction.schemas import InsuranceChargesModelInputSchema, \
     InsuranceChargesModelOutputSchema
 
 
@@ -24,7 +25,7 @@ class InsuranceChargesModel(MLModel):
     @property
     def description(self) -> str:
         """Return description of model."""
-        return "Model to predict the insurance charges of a customer.."
+        return "Model to predict the insurance charges of a customer."
 
     @property
     def version(self) -> str:
@@ -60,11 +61,14 @@ class InsuranceChargesModel(MLModel):
         :rtype: dict -- The result of the prediction, the output object will meet the requirements of the output schema.
 
         """
-        # converting the incoming dictionary into a pandas dataframe that can be accepted by the model
-        X = pd.DataFrame([[data.age, data.sex.value, data.bmi, data.children, data.smoker, data.region.value]],
+        try:
+            # converting the incoming dictionary into a pandas dataframe that can be accepted by the model
+            X = pd.DataFrame([[data.age, data.sex.value, data.bmi, data.children, data.smoker, data.region.value]],
                          columns=["age", "sex", "bmi", "children", "smoker", "region"])
 
-        # making the prediction and extracting the result from the array
-        y_hat = round(float(self._svm_model.predict(X)[0]), 2)
+            # making the prediction and extracting the result from the array
+            y_hat = round(float(self._svm_model.predict(X)[0]), 2)
+        except Exception as e:
+            traceback.print_exc()
 
         return InsuranceChargesModelOutputSchema(charges=y_hat)

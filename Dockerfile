@@ -4,7 +4,8 @@ MAINTAINER Brian Schmidt "6666331+schmidtbri@users.noreply.github.com"
 
 WORKDIR ./service
 
-COPY ./regression_model ./app
+COPY ./insurance_charges_model ./insurance_charges_model
+COPY ./rest_config.yaml ./rest_config.yaml
 COPY ./Makefile ./Makefile
 COPY ./requirements.txt ./requirements.txt
 

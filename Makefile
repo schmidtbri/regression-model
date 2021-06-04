@@ -2,7 +2,7 @@ TEST_PATH=./tests
 
 .DEFAULT_GOAL := help
 
-.PHONY: help clean-pyc build clean-build venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
+.PHONY: help clean-pyc venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -15,15 +15,6 @@ clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
-
-build: generate-modules ## build the package
-	python setup.py sdist bdist_wheel
-
-clean-build:  ## clean build artifacts
-	rm -rf build
-	rm -rf dist
-	rm -rf vendors
-	rm -rf regression_model.egg-info
 
 venv: ## create virtual environment
 	python3 -m venv venv
@@ -49,7 +40,7 @@ test-reports: clean-pyc clean-test ## Run unit test suite with reporting
 	mkdir ./reports/unit_tests
 	mkdir ./reports/coverage
 	mkdir ./reports/badge
-	-python -m coverage run --source regression_model -m pytest --verbose --color=yes --html=./reports/unit_tests/report.html --junitxml=./reports/unit_tests/report.xml $(TEST_PATH)
+	-python -m coverage run --source insurance_charges_model -m pytest --verbose --color=yes --html=./reports/unit_tests/report.html --junitxml=./reports/unit_tests/report.xml $(TEST_PATH)
 	-coverage html -d ./reports/coverage
 	-coverage-badge -o ./reports/badge/coverage.svg
 	rm -rf .coverage
@@ -61,25 +52,25 @@ clean-test:	## Remove test artifacts
 	rm -rf .pytype
 
 generate-modules:  ## generates python modules from jupyter notebooks
-	jupyter nbconvert --to script ./regression_model/training/*.ipynb --PythonExporter.exclude_markdown=True
+	jupyter nbconvert --to script ./insurance_charges_model/training/*.ipynb --PythonExporter.exclude_markdown=True
 
 check-codestyle: generate-modules  ## checks the style of the code against PEP8
-	pycodestyle regression_model --ignore=W391,E402  --max-line-length=120
+	pycodestyle insurance_charges_model --ignore=W391,E402  --max-line-length=120
 
 check-docstyle: generate-modules  ## checks the style of the docstrings against PEP257
-	pydocstyle regression_model --ignore=D100,D203,D212,D213
+	pydocstyle insurance_charges_model --ignore=D100,D203,D212,D213
 
 check-security:  ## checks for common security vulnerabilities
-	bandit -r regression_model
+	bandit -r insurance_charges_model
 
 check-dependencies:  ## checks for security vulnerabilities in dependencies
 	safety check -r requirements.txt
 
 check-codemetrics: generate-modules  ## calculate code metrics of the package
-	radon cc regression_model
+	radon cc insurance_charges_model
 
 check-pytype: generate-modules  ## perform static code analysis
-	pytype regression_model
+	pytype insurance_charges_model
 
 clean-notebook-code:  ## delete all modules created from jupyter notebooks
-	rm ./regression_model/training/*.py
+	rm ./insurance_charges_model/training/*.py

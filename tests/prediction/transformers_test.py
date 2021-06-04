@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from regression_model.prediction.transformers import BooleanTransformer
+from insurance_charges_model.prediction.transformers import BooleanTransformer
 
 
 class TransformersTests(unittest.TestCase):

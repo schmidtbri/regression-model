@@ -2,7 +2,8 @@ from os import path
 from io import open
 from setuptools import setup, find_packages
 
-from regression_model import __name__, __version__, __doc__
+from insurance_charges_model import __name__, __version__, __doc__
+
 
 def load_file(file_name):
     here = path.abspath(path.dirname(__file__))

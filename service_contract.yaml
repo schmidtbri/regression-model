@@ -29,19 +29,19 @@ components:
       description: Schema for input of the model's predict method.
       properties:
         age:
-          description: Age of customer in years.
+          description: Age of primary beneficiary in years.
           maximum: 65.0
           minimum: 18.0
           title: Age
           type: integer
         bmi:
-          description: Body mass index of customer.
+          description: Body mass index of beneficiary.
           maximum: 50.0
           minimum: 15.0
           title: Body Mass Index
           type: number
         children:
-          description: Number of children of customer.
+          description: Number of children covered by health insurance.
           maximum: 5.0
           minimum: 0.0
           title: Children
@@ -49,15 +49,15 @@ components:
         region:
           allOf:
           - $ref: '#/components/schemas/RegionEnum'
-          description: Region where customer lives.
+          description: Region where beneficiary lives.
           title: Region
         sex:
           allOf:
           - $ref: '#/components/schemas/SexEnum'
-          description: Sex of costumer.
+          description: Gender of beneficiary.
           title: Sex
         smoker:
-          description: Whether customer is a smoker.
+          description: Whether beneficiary is a smoker.
           title: Smoker
           type: boolean
       title: InsuranceChargesModelInputSchema
@@ -66,7 +66,8 @@ components:
       description: Schema for output of the model's predict method.
       properties:
         charges:
-          description: Predicted charge to customer in US dollars.
+          description: Individual medical costs billed by health insurance to customer
+            in US dollars.
           title: Charges
           type: number
       title: InsuranceChargesModelOutputSchema
