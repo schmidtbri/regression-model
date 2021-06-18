@@ -1,11 +1,11 @@
 # Regression Model
-Building and deploying a regression ML model.
 
-![Test and Build](https://github.com/schmidtbri/regression-model/workflows/Test%20and%20Build/badge.svg)
+Building and deploying a regression ML model.
 
 This code is used in this [blog post]().
 
 ## Requirements
+
 Python 3
 
 ## Installation 
@@ -60,7 +60,16 @@ make clean-test
 To start the service locally, execute these commands:
 
 ```bash
+uvicorn rest_model_service.main:app --reload
+```
 
+## Generating an OpenAPI Specification
+
+To generate the OpenAPI spec file for the REST service that hosts the model, execute these commands:
+
+```bash
+export PYTHONPATH=./
+generate_openapi --output_file=service_contract.yaml
 ```
 
 ## Docker
@@ -68,7 +77,7 @@ To start the service locally, execute these commands:
 To build a docker image for the service, run this command:
 
 ```bash
-docker build -t insurance_charges_model:latest .
+docker build -t insurance_charges_model:0.1.0 .
 ```
 
 To run the image, execute this command:

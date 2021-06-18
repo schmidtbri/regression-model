@@ -1,8 +1,8 @@
 import unittest
 
 from insurance_charges_model.prediction.model import InsuranceChargesModel
-from insurance_charges_model.prediction.schemas import InsuranceChargesModelInputSchema, \
-    InsuranceChargesModelOutputSchema, SexEnum, RegionEnum
+from insurance_charges_model.prediction.schemas import InsuranceChargesModelInput, \
+    InsuranceChargesModelOutput, SexEnum, RegionEnum
 from pydantic import ValidationError
 
 
@@ -14,10 +14,10 @@ class ModelTests(unittest.TestCase):
         inpt = dict(age=35, sex=SexEnum.male, bmi=20.0, children=1, smoker=False, region=RegionEnum.northeast)
 
         # act
-        prediction = model.predict(InsuranceChargesModelInputSchema(**inpt))
+        prediction = model.predict(InsuranceChargesModelInput(**inpt))
 
         # assert
-        self.assertTrue(type(prediction) is InsuranceChargesModelOutputSchema)
+        self.assertTrue(type(prediction) is InsuranceChargesModelOutput)
 
     def test_model_with_wrong_input_type(self):
         # arrange
@@ -26,7 +26,7 @@ class ModelTests(unittest.TestCase):
 
         # act, assert
         with self.assertRaises(ValidationError):
-            prediction = model.predict(InsuranceChargesModelInputSchema(**inpt))
+            prediction = model.predict(InsuranceChargesModelInput(**inpt))
             
 
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ components:
           type: array
       title: HTTPValidationError
       type: object
-    InsuranceChargesModelInputSchema:
+    InsuranceChargesModelInput:
       description: Schema for input of the model's predict method.
       properties:
         age:
@@ -60,9 +60,9 @@ components:
           description: Whether beneficiary is a smoker.
           title: Smoker
           type: boolean
-      title: InsuranceChargesModelInputSchema
+      title: InsuranceChargesModelInput
       type: object
-    InsuranceChargesModelOutputSchema:
+    InsuranceChargesModelOutput:
       description: Schema for output of the model's predict method.
       properties:
         charges:
@@ -70,7 +70,7 @@ components:
             in US dollars.
           title: Charges
           type: number
-      title: InsuranceChargesModelOutputSchema
+      title: InsuranceChargesModelOutput
       type: object
     ModelMetadata:
       description: Metadata of a model.
@@ -182,20 +182,20 @@ paths:
       summary: Get Models
   /api/models/insurance_charges_model/prediction:
     post:
-      description: Model to predict the insurance charges of a customer..
+      description: Model to predict the insurance charges of a customer.
       operationId: PredictionController_api_models_insurance_charges_model_prediction_post
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/InsuranceChargesModelInputSchema'
+              $ref: '#/components/schemas/InsuranceChargesModelInput'
         required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InsuranceChargesModelOutputSchema'
+                $ref: '#/components/schemas/InsuranceChargesModelOutput'
           description: Successful Response
         '400':
           content:

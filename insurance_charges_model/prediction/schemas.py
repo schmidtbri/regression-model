@@ -18,7 +18,7 @@ class RegionEnum(str, Enum):
     northeast = "northeast"
 
 
-class InsuranceChargesModelInputSchema(BaseModel):
+class InsuranceChargesModelInput(BaseModel):
     """Schema for input of the model's predict method."""
 
     age: int = Field(None, title="Age", ge=18, le=65, description="Age of primary beneficiary in years.")
@@ -30,7 +30,7 @@ class InsuranceChargesModelInputSchema(BaseModel):
     region: RegionEnum = Field(None, title="Region", description="Region where beneficiary lives.")
 
 
-class InsuranceChargesModelOutputSchema(BaseModel):
+class InsuranceChargesModelOutput(BaseModel):
     """Schema for output of the model's predict method."""
 
     charges: float = Field(None, title="Charges", description="Individual medical costs billed by health insurance to "

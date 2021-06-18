@@ -2,7 +2,7 @@ TEST_PATH=./tests
 
 .DEFAULT_GOAL := help
 
-.PHONY: help clean-pyc venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
+.PHONY: help clean-pyc build clean-build venv dependencies test-dependencies clean-venv test test-reports clean-test check-codestyle check-docstyle
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -15,6 +15,15 @@ clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+
+build: ## build the package
+	python setup.py sdist bdist_wheel
+
+clean-build:  ## clean build artifacts
+	rm -rf build
+	rm -rf dist
+	rm -rf vendors
+	rm -rf insurance_charges_model.egg-info
 
 venv: ## create virtual environment
 	python3 -m venv venv
@@ -54,6 +63,9 @@ clean-test:	## Remove test artifacts
 generate-modules:  ## generates python modules from jupyter notebooks
 	jupyter nbconvert --to script ./insurance_charges_model/training/*.ipynb --PythonExporter.exclude_markdown=True
 
+clean-modules:  ## delete all modules created from jupyter notebooks
+	rm ./insurance_charges_model/training/*.py
+
 check-codestyle: generate-modules  ## checks the style of the code against PEP8
 	pycodestyle insurance_charges_model --ignore=W391,E402  --max-line-length=120
 
@@ -71,6 +83,3 @@ check-codemetrics: generate-modules  ## calculate code metrics of the package
 
 check-pytype: generate-modules  ## perform static code analysis
 	pytype insurance_charges_model
-
-clean-notebook-code:  ## delete all modules created from jupyter notebooks
-	rm ./insurance_charges_model/training/*.py

@@ -21,11 +21,20 @@ setup(name=__name__,
       url="https://github.com/schmidtbri/regression-model",
       license="BSD",
       packages=find_packages(exclude=["tests", "*tests", "tests*"]),
-      install_requires=["ml_base", "rest_model_service", "pandas", "scikit-learn", "featuretools"],
+      install_requires=["ml_base", "rest_model_service", "pandas", "scikit-learn", "featuretools", "tpot"],
       extras_require={
-            "training": ["kaggle", "jupyter", "pandas_profiling", "tpot", "yellowbrick"],
+            "training": ["kaggle", "jupyter", "pandas_profiling", "yellowbrick"],
       },
-      tests_require=['pytest', 'pytest-html', 'pylama', 'coverage', 'coverage-badge', 'bandit', 'safety', "pytype"],
+      tests_require=["pytest", "pytest-html", "pylama", "coverage", "coverage-badge", "bandit", "safety", "pytype"],
+      package_data={
+            "insurance_charges_model": [
+                  "model_files/model.joblib",
+                  "training/1. data_exploration.ipynb",
+                  "training/2. data_preparation.ipynb",
+                  "training/3. model_training.ipynb",
+                  "training/4. model_validation.ipynb"
+            ]
+      },
       classifiers=[
             "Programming Language :: Python :: 3",
             "Operating System :: OS Independent"

@@ -1,0 +1,7 @@
+# requirements for model service only
+featuretools
+ml-base
+pandas
+rest_model_service
+scikit-learn
+tpot

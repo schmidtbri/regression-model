@@ -6,9 +6,8 @@ WORKDIR ./service
 
 COPY ./insurance_charges_model ./insurance_charges_model
 COPY ./rest_config.yaml ./rest_config.yaml
-COPY ./Makefile ./Makefile
-COPY ./requirements.txt ./requirements.txt
+COPY ./service_requirements.txt ./service_requirements.txt
 
-RUN make dependencies
+RUN pip install -r service_requirements.txt
 
 ENV APP_MODULE=rest_model_service.main:app
