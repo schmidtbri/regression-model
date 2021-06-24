@@ -83,7 +83,7 @@ docker build -t insurance_charges_model:0.1.0 .
 To run the image, execute this command:
 
 ```bash
-docker run -d -p 80:80 insurance_charges_model
+docker run -d -p 80:80 insurance_charges_model:0.1.0
 ```
 
 To watch the logs coming from the image, execute this command:
@@ -92,8 +92,8 @@ To watch the logs coming from the image, execute this command:
 docker logs $(docker ps -lq)
 ```
 
-To get the latest build of this image from Dockerhub, execute this command:
+To stop the docker image, execute this command:
 
 ```bash
-docker pull bschmidt135/insurance_charges_model
+docker kill $(docker ps -lq)
 ```

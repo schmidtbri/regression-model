@@ -15,11 +15,11 @@ spec:
         app: insurance-charges-model
     spec:
       containers:
-        - name: insurance_charges_model
-          image: model_services-registry/insurance_charges_model:latest
+        - name: insurance-charges-model
+          image: registry.digitalocean.com/model-services-registry/insurance_charges_model:0.1.0
           ports:
-            - containerPort: 80
-            - protocol: TCP
+          - containerPort: 80
+            protocol: TCP
           imagePullPolicy: Always
           resources:
             requests:
