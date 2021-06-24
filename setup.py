@@ -28,11 +28,9 @@ setup(name=__name__,
       tests_require=["pytest", "pytest-html", "pylama", "coverage", "coverage-badge", "bandit", "safety", "pytype"],
       package_data={
             "insurance_charges_model": [
-                  "model_files/model.joblib",
-                  "training/1. data_exploration.ipynb",
-                  "training/2. data_preparation.ipynb",
-                  "training/3. model_training.ipynb",
-                  "training/4. model_validation.ipynb"
+                  "model_files/*/*.joblib",
+                  "model_files/*/*.html",
+                  "training/*.ipynb"
             ]
       },
       classifiers=[
@@ -45,5 +43,5 @@ setup(name=__name__,
             "Tracker": "https://github.com/schmidtbri/regression-model/issues"
       },
       keywords=[
-            "machine learning", "model deployment", "regression model"
+            "machine learning", "automated machine learning", "model deployment", "regression model"
       ])

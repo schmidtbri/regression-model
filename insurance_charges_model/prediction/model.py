@@ -49,14 +49,13 @@ class InsuranceChargesModel(MLModel):
 
         """
         dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        with open(os.path.join(dir_path, "model_files", "model.joblib"), 'rb') as file:
+        with open(os.path.join(dir_path, "model_files", "1", "model.joblib"), 'rb') as file:
             self._svm_model = joblib.load(file)
 
     def predict(self, data: InsuranceChargesModelInput) -> InsuranceChargesModelOutput:
         """Make a prediction with the model.
 
         :param data: Data for making a prediction with the model. Object must meet requirements of the input schema.
-        :type data: OutputSchema
         :rtype: dict -- The result of the prediction, the output object will meet the requirements of the output schema.
 
         """

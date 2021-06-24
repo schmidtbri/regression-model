@@ -11,7 +11,7 @@ class ModelTests(unittest.TestCase):
     def test_model(self):
         # arrange
         model = InsuranceChargesModel()
-        inpt = dict(age=35, sex=SexEnum.male, bmi=20.0, children=1, smoker=False, region=RegionEnum.northeast)
+        inpt = dict(age=35, sex="male", bmi=20.0, children=1, smoker=False, region="northeast")
 
         # act
         prediction = model.predict(InsuranceChargesModelInput(**inpt))
