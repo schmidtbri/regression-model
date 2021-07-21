@@ -2,7 +2,7 @@
 
 Building and deploying a regression ML model.
 
-This code is used in this [blog post]().
+This code is used in this [blog post](https://www.tekhnoal.com/regression-model.html).
 
 ## Requirements
 
