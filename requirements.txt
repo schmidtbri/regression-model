@@ -4,10 +4,6 @@
 #
 #    pip-compile
 #
-appnope==0.1.2
-    # via
-    #   ipykernel
-    #   ipython
 argon2-cffi==20.1.0
     # via notebook
 async-generator==1.10
@@ -83,17 +79,17 @@ ipykernel==5.5.5
     #   jupyter-console
     #   notebook
     #   qtconsole
+ipython==7.23.1
+    # via
+    #   ipykernel
+    #   ipywidgets
+    #   jupyter-console
 ipython-genutils==0.2.0
     # via
     #   nbformat
     #   notebook
     #   qtconsole
     #   traitlets
-ipython==7.23.1
-    # via
-    #   ipykernel
-    #   ipywidgets
-    #   jupyter-console
 ipywidgets==7.6.3
     # via jupyter
 jedi==0.18.0
@@ -111,6 +107,8 @@ joblib==1.0.1
     #   tpot
 jsonschema==3.2.0
     # via nbformat
+jupyter==1.0.0
+    # via -r requirements.in
 jupyter-client==6.1.12
     # via
     #   ipykernel
@@ -127,8 +125,6 @@ jupyter-core==4.7.1
     #   nbformat
     #   notebook
     #   qtconsole
-jupyter==1.0.0
-    # via -r requirements.in
 jupyterlab-pygments==0.1.2
     # via nbconvert
 jupyterlab-widgets==1.0.0
@@ -141,8 +137,6 @@ locket==0.2.1
     # via partd
 markupsafe==2.0.0
     # via jinja2
-matplotlib-inline==0.1.2
-    # via ipython
 matplotlib==3.4.2
     # via
     #   missingno
@@ -150,6 +144,8 @@ matplotlib==3.4.2
     #   phik
     #   seaborn
     #   yellowbrick
+matplotlib-inline==0.1.2
+    # via ipython
 missingno==0.4.2
     # via pandas-profiling
 mistune==0.8.4
@@ -204,8 +200,6 @@ numpy==1.19.5
     #   yellowbrick
 packaging==20.9
     # via bleach
-pandas-profiling==3.0.0
-    # via -r requirements.in
 pandas==1.2.4
     # via
     #   -r requirements.in
@@ -216,6 +210,8 @@ pandas==1.2.4
     #   seaborn
     #   tpot
     #   visions
+pandas-profiling==3.0.0
+    # via -r requirements.in
 pandocfilters==1.4.3
     # via nbconvert
 parso==0.8.2
@@ -228,7 +224,7 @@ phik==0.11.2
     # via pandas-profiling
 pickleshare==0.7.5
     # via ipython
-pillow==8.2.0
+pillow==8.3.2
     # via
     #   imagehash
     #   matplotlib
