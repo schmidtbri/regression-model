@@ -7,6 +7,15 @@ TEST_PATH=./tests
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+build: ## build a package
+	python setup.py sdist bdist_wheel
+
+clean-build:  ## clean build artifacts
+	rm -rf build
+	rm -rf dist
+	rm -rf vendors
+	rm -rf ml_base.egg-info
+
 download-dataset: ## download dataset from Kaggle
 	mkdir -p data
 	kaggle datasets download -d mirichoi0218/insurance -p ./data --unzip
@@ -31,15 +40,6 @@ clean-pyc: ## Remove python artifacts.
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
-build: ## build the package
-	python setup.py sdist bdist_wheel
-
-clean-build:  ## clean build artifacts
-	rm -rf build
-	rm -rf dist
-	rm -rf vendors
-	rm -rf insurance_charges_model.egg-info
-
 venv: ## create virtual environment
 	python3 -m venv venv
 
@@ -52,6 +52,11 @@ dependencies: ## install dependencies from requirements.txt
 
 test-dependencies: ## install dependencies from test_requirements.txt
 	pip install -r test_requirements.txt
+
+update-dependencies:  ## update dependency versions
+	pip-compile requirements.in > requirements.txt
+	pip-compile test_requirements.in > test_requirements.txt
+	pip-compile service_requirements.in > service_requirements.txt
 
 clean-venv: ## remove all packages from virtual environment
 	pip freeze | grep -v "^-e" | xargs pip uninstall -y
